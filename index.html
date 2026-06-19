@@ -86,20 +86,23 @@
 <script>
 /* ═══════════════════════════════════════════════════════════════════════
    OPORTUNIDADES_DATA — Claude actualiza este bloque cada viernes a las 16:00 ART.
-   Última actualización: PENDIENTE_PRIMERA_EJECUCION
+   Última actualización: 2026-06-19
    ═══════════════════════════════════════════════════════════════════════ */
 const REPORT_META = {
-  fecha_informe: null,
-  total_encontradas: 0,
-  total_nuevas: 0,
+  fecha_informe: '2026-06-19',
+  total_encontradas: 4,
+  total_nuevas: 4,
   total_criticas: 0,
-  organismos_mas_activos: [],
-  sectores_predominantes: [],
-  tendencias: [],
-  alertas: []
+  organismos_mas_activos: ['PNUD (UNDP)','UNESCO'],
+  sectores_predominantes: ['Gobierno Digital','Educacion y Tecnologia Educativa','Inteligencia Artificial aplicada a politicas publicas'],
+  tendencias: ['Primera ejecucion del relevamiento: cobertura inicial concentrada en PNUD (procurement-notices.undp.org) y UNESCO (careers.unesco.org), por restricciones de tiempo en esta corrida manual.','Quedan pendientes de relevar en profundidad: Banco Mundial, BID/IADB completo, CAF, UNICEF, UNOPS y organismos de Prioridad B/C. Se cubriran en las proximas ejecuciones automaticas semanales.','Se detecta una tendencia fuerte de consultorias vinculadas a transformacion digital de gobiernos y a integracion de IA en educacion y gestion publica.'],
+  alertas: ['Convocatoria UNESCO Peru (Asesor para el Cambio en Pedagogia) vence el 22/06/2026 - quedan pocos dias, se recomienda revisar y aplicar cuanto antes aunque su puntaje no supere el umbral critico automatico.','Esta es la primera ejecucion del dashboard: la cobertura de fuentes es parcial. La comparacion semana a semana y la deteccion de oportunidades \'nuevas\' se activara plenamente desde la proxima corrida.']
 };
 const OPORTUNIDADES_DATA = [
-  // {organismo, titulo, area, modalidad, idioma, fecha_limite, honorarios, pais, puntaje, clasificacion, prioridad, link, nueva, critica}
+  {organismo:'PNUD (UNDP) Montenegro',titulo:'International Consultant - AI and Governance Advisor',area:'Inteligencia Artificial / Gobierno Digital',modalidad:'Remoto / Híbrido',idioma:'Inglés',fecha_limite:'Consultar convocatoria',honorarios:'No especificado',pais:'Montenegro (remoto)',puntaje:70,clasificacion:'Muy recomendable',prioridad:'Alta',link:'https://procurement-notices.undp.org/view_negotiation.cfm?nego_id=46503',nueva:true,critica:false,motivo:'Consultoria individual (IC) centrada en IA aplicada a gobernanza, modalidad mayormente remota, alineada con perfil de transformacion digital y politicas publicas.'},
+  {organismo:'UNESCO Camboya',titulo:'International Consultant: Educational Technology and Digital Transformation Expert',area:'Educación / Tecnología Educativa / Transformación Digital',modalidad:'Híbrido (2 misiones a Camboya, resto remoto)',idioma:'Inglés',fecha_limite:'Consultar convocatoria',honorarios:'No especificado',pais:'Camboya (Phnom Penh)',puntaje:60,clasificacion:'Muy recomendable',prioridad:'Alta',link:'https://unjobs.org/vacancies/1733704316562',nueva:true,critica:false,motivo:'Proyecto STEPCam II: hub de innovacion EdTech, IA y transformacion digital educativa, contrato de 11 meses mayormente remoto con 2 misiones puntuales.'},
+  {organismo:'UNESCO Perú',titulo:'Asesor para el Cambio en Pedagogía - Proyecto Educación UNESCO-Quellaveco-Reimagina 2024-2027',area:'Educación / Pedagogía / Innovación Educativa',modalidad:'Presencial/Híbrido (región Moquegua)',idioma:'Español',fecha_limite:'22/06/2026',honorarios:'No especificado',pais:'Perú (Lima/Moquegua)',puntaje:55,clasificacion:'Interesante',prioridad:'Alta - URGENTE (vence en 3 días)',link:'https://careers.unesco.org/job/Lima-ASESOR-PARA-EL-CAMBIO-EN-PEDAGOG%C3%8DA-PROYECTO-DE-EDUCACI%C3%93N-UNESCO-QUELLAVECO-REIMAGINA-2024-2027/1347553157/',nueva:true,critica:false,motivo:'Proyecto de innovacion pedagogica con Anglo American/UNESCO en Peru, alineado con perfil de innovacion publica y desarrollo territorial. Vencimiento muy proximo.'},
+  {organismo:'PNUD (UNDP) Bosnia y Herzegovina',titulo:'International Consultant - Digital Payments Expert',area:'Gobierno Digital / Pagos Digitales',modalidad:'Híbrido (requiere misiones en el pais)',idioma:'Inglés',fecha_limite:'Consultar convocatoria',honorarios:'No especificado',pais:'Bosnia y Herzegovina',puntaje:40,clasificacion:'Interesante',prioridad:'Media',link:'https://procurement-notices.undp.org/view_negotiation.cfm?nego_id=46475',nueva:true,critica:false,motivo:'Consultoria deliverable-based en pagos digitales, pero exige viajes/presencia en pais, reduce compatibilidad con preferencia remota.'}
 ];
 /* ═══════════════════════════════════════════════════════════════════════ */
 
