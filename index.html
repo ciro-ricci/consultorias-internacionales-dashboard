@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inteligencia de Oportunidades de Consultoría Internacional</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --panel2:#16213a; --border:#2d3b55;
+    --text:#e5e9f0; --muted:#94a3b8; --accent:#3b82f6; --green:#22c55e;
+    --yellow:#eab308; --orange:#f97316; --red:#ef4444;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);}
+  header{padding:24px 32px;border-bottom:1px solid var(--border);background:var(--panel2);}
+  header h1{margin:0 0 4px;font-size:1.5rem;}
+  header p{margin:0;color:var(--muted);font-size:.9rem;}
+  .container{max-width:1280px;margin:0 auto;padding:24px 32px 64px;}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:20px 0 32px;}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;}
+  .stat .num{font-size:1.8rem;font-weight:700;}
+  .stat .lbl{color:var(--muted);font-size:.8rem;margin-top:4px;}
+  h2{font-size:1.15rem;border-left:4px solid var(--accent);padding-left:10px;margin:36px 0 14px;}
+  .alert-critica{background:#7f1d1d;border:1px solid var(--red);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+  .alert-critica b{color:#fecaca;}
+  table{width:100%;border-collapse:collapse;font-size:.85rem;background:var(--panel);border-radius:10px;overflow:hidden;}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top;}
+  th{background:var(--panel2);color:var(--muted);font-weight:600;position:sticky;top:0;}
+  tr:hover{background:#1b2840;}
+  .badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:.72rem;font-weight:600;}
+  .b-excelente{background:rgba(34,197,94,.15);color:var(--green);}
+  .b-recomendable{background:rgba(59,130,246,.15);color:var(--accent);}
+  .b-interesante{background:rgba(234,179,8,.15);color:var(--yellow);}
+  .b-baja{background:rgba(148,163,184,.15);color:var(--muted);}
+  .b-nueva{background:rgba(249,115,22,.18);color:var(--orange);margin-left:6px;}
+  a.link{color:var(--accent);text-decoration:none;}
+  a.link:hover{text-decoration:underline;}
+  .top5-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;}
+  .top5-card h3{margin:0 0 6px;font-size:1rem;}
+  .top5-card .meta{color:var(--muted);font-size:.8rem;margin-bottom:8px;}
+  .empty{color:var(--muted);font-style:italic;padding:24px;text-align:center;}
+  footer{padding:18px 32px;color:var(--muted);font-size:.78rem;border-top:1px solid var(--border);}
+  .tendencias-list{color:var(--text);line-height:1.6;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Inteligencia de Oportunidades de Consultoría Internacional</h1>
+  <p id="fecha-informe">Cargando...</p>
+</header>
+
+<div class="container">
+
+  <section id="alertas-criticas"></section>
+
+  <div class="stats" id="stats"></div>
+
+  <h2>Tabla de oportunidades</h2>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Organismo</th><th>Título</th><th>Área</th><th>Modalidad</th><th>Idioma</th>
+          <th>Fecha límite</th><th>Honorarios</th><th>País/Región</th><th>Puntaje</th><th>Prioridad</th><th>Enlace</th>
+        </tr>
+      </thead>
+      <tbody id="tabla-body"></tbody>
+    </table>
+  </div>
+
+  <h2>Top 5 recomendadas</h2>
+  <div id="top5"></div>
+
+  <h2>Tendencias del mercado</h2>
+  <div id="tendencias" class="tendencias-list"></div>
+
+  <h2>Alertas</h2>
+  <div id="alertas"></div>
+
+</div>
+
+<footer>Dashboard generado y actualizado automáticamente cada viernes a las 16:00 (hora de Argentina). Fuente: BID, BID Lab, CAF, Banco Mundial, PNUD, UNESCO, UNICEF, UNOPS, CEPAL, OEA, OECD, GIZ, AECID, JICA, FAO, UN Women, UNEP, UN-Habitat y otros organismos multilaterales.</footer>
+
+<script type="application/json" id="meta-placeholder">{}</script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   OPORTUNIDADES_DATA — Claude actualiza este bloque cada viernes a las 16:00 ART.
+   Última actualización: PENDIENTE_PRIMERA_EJECUCION
+   ═══════════════════════════════════════════════════════════════════════ */
+const REPORT_META = {
+  fecha_informe: null,
+  total_encontradas: 0,
+  total_nuevas: 0,
+  total_criticas: 0,
+  organismos_mas_activos: [],
+  sectores_predominantes: [],
+  tendencias: [],
+  alertas: []
+};
+const OPORTUNIDADES_DATA = [
+  // {organismo, titulo, area, modalidad, idioma, fecha_limite, honorarios, pais, puntaje, clasificacion, prioridad, link, nueva, critica}
+];
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+function clasificacionClass(c){
+  if(c === 'Excelente') return 'b-excelente';
+  if(c === 'Muy recomendable') return 'b-recomendable';
+  if(c === 'Interesante') return 'b-interesante';
+  return 'b-baja';
+}
+
+function render(){
+  document.getElementById('fecha-informe').textContent = REPORT_META.fecha_informe
+    ? ('Informe del ' + REPORT_META.fecha_informe + ' — ' + REPORT_META.total_encontradas + ' oportunidades encontradas, ' + OPORTUNIDADES_DATA.length + ' seleccionadas')
+    : 'Aún no se ejecutó la primera búsqueda — esta página se completará en la próxima actualización programada (viernes 16:00 ART).';
+
+  var statsEl = document.getElementById('stats');
+  var stats = [
+    [REPORT_META.total_encontradas, 'Oportunidades encontradas'],
+    [OPORTUNIDADES_DATA.length, 'Seleccionadas (top 20)'],
+    [REPORT_META.total_nuevas, 'Nuevas esta semana'],
+    [REPORT_META.total_criticas, 'Críticas (acción recomendada)']
+  ];
+  statsEl.innerHTML = stats.map(function(s){
+    return '<div class="stat"><div class="num">' + s[0] + '</div><div class="lbl">' + s[1] + '</div></div>';
+  }).join('');
+
+  var criticas = OPORTUNIDADES_DATA.filter(function(o){ return o.critica; });
+  document.getElementById('alertas-criticas').innerHTML = criticas.map(function(o){
+    return '<div class="alert-critica"><b>OPORTUNIDAD CRÍTICA – ACCIÓN RECOMENDADA</b><br>' +
+      o.organismo + ' — ' + o.titulo + ' (vence: ' + o.fecha_limite + ', puntaje ' + o.puntaje + ')</div>';
+  }).join('');
+
+  var tbody = document.getElementById('tabla-body');
+  if(OPORTUNIDADES_DATA.length === 0){
+    tbody.innerHTML = '<tr><td colspan="11" class="empty">Sin datos todavía. La primera actualización automática se ejecutará el próximo viernes a las 16:00 (hora de Argentina).</td></tr>';
+  } else {
+    tbody.innerHTML = OPORTUNIDADES_DATA.map(function(o){
+      return '<tr>' +
+        '<td>' + o.organismo + '</td>' +
+        '<td>' + o.titulo + (o.nueva ? '<span class="badge b-nueva">NUEVA</span>' : '') + '</td>' +
+        '<td>' + o.area + '</td>' +
+        '<td>' + o.modalidad + '</td>' +
+        '<td>' + o.idioma + '</td>' +
+        '<td>' + o.fecha_limite + '</td>' +
+        '<td>' + (o.honorarios || 'No especificado') + '</td>' +
+        '<td>' + o.pais + '</td>' +
+        '<td><span class="badge ' + clasificacionClass(o.clasificacion) + '">' + o.puntaje + ' · ' + o.clasificacion + '</span></td>' +
+        '<td>' + o.prioridad + '</td>' +
+        '<td><a class="link" href="' + o.link + '" target="_blank" rel="noopener">Ver convocatoria</a></td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  var top5 = OPORTUNIDADES_DATA.slice(0, 5);
+  var top5El = document.getElementById('top5');
+  top5El.innerHTML = top5.length ? top5.map(function(o){
+    return '<div class="top5-card"><h3>' + o.organismo + ' — ' + o.titulo + '</h3>' +
+      '<div class="meta">' + o.area + ' · ' + o.modalidad + ' · Vence ' + o.fecha_limite + ' · Puntaje ' + o.puntaje + '</div>' +
+      '<div>' + (o.motivo || '') + '</div></div>';
+  }).join('') : '<div class="empty">Sin datos todavía.</div>';
+
+  document.getElementById('tendencias').innerHTML = REPORT_META.tendencias.length
+    ? '<ul>' + REPORT_META.tendencias.map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ul>'
+    : '<div class="empty">Sin datos todavía.</div>';
+
+  document.getElementById('alertas').innerHTML = REPORT_META.alertas.length
+    ? '<ul>' + REPORT_META.alertas.map(function(a){ return '<li>' + a + '</li>'; }).join('') + '</ul>'
+    : '<div class="empty">Durante la presente semana no se identificaron novedades.</div>';
+}
+render();
+</script>
+</body>
+</html>
