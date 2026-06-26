@@ -86,23 +86,21 @@
 <script>
 /* ═══════════════════════════════════════════════════════════════════════
    OPORTUNIDADES_DATA — Claude actualiza este bloque cada viernes a las 16:00 ART.
-   Última actualización: 2026-06-19
+   Última actualización: 2026-06-26
    ═══════════════════════════════════════════════════════════════════════ */
 const REPORT_META = {
-  fecha_informe: '2026-06-19',
-  total_encontradas: 4,
-  total_nuevas: 4,
+  fecha_informe: '2026-06-26',
+  total_encontradas: 2,
+  total_nuevas: 2,
   total_criticas: 0,
-  organismos_mas_activos: ['PNUD (UNDP)','UNESCO'],
-  sectores_predominantes: ['Gobierno Digital','Educacion y Tecnologia Educativa','Inteligencia Artificial aplicada a politicas publicas'],
-  tendencias: ['Primera ejecucion del relevamiento: cobertura inicial concentrada en PNUD (procurement-notices.undp.org) y UNESCO (careers.unesco.org), por restricciones de tiempo en esta corrida manual.','Quedan pendientes de relevar en profundidad: Banco Mundial, BID/IADB completo, CAF, UNICEF, UNOPS y organismos de Prioridad B/C. Se cubriran en las proximas ejecuciones automaticas semanales.','Se detecta una tendencia fuerte de consultorias vinculadas a transformacion digital de gobiernos y a integracion de IA en educacion y gestion publica.'],
-  alertas: ['Convocatoria UNESCO Peru (Asesor para el Cambio en Pedagogia) vence el 22/06/2026 - quedan pocos dias, se recomienda revisar y aplicar cuanto antes aunque su puntaje no supere el umbral critico automatico.','Esta es la primera ejecucion del dashboard: la cobertura de fuentes es parcial. La comparacion semana a semana y la deteccion de oportunidades \'nuevas\' se activara plenamente desde la proxima corrida.']
+  organismos_mas_activos: ['PNUD (UNDP)','UNICEF'],
+  sectores_predominantes: ['Transicion Energetica','Educacion Digital'],
+  tendencias: ['Semana de baja oferta en Prioridad A para perfiles de transformacion digital/IA en politicas publicas: se revisaron mas de 35 consultorias de PNUD y UNESCO y la gran mayoria tenia plazos ya vencidos o eran National Consultant.','Una oportunidad muy alineada del BID (Digitalization and AI - Remote PEC Consultant, informe insignia 2026) fue identificada pero ya estaba cerrada (plazo 30/06/2025).','Mayor actividad relativa en los sectores de transicion energetica y educacion digital esta semana.'],
+  alertas: ['Ninguna oportunidad alcanzo el umbral critico (score>85 y <15 dias) ni el umbral de urgencia (score>=40 y <5 dias) esta semana.','UNICEF Guatemala vence en 9 dias (05/07/2026); PNUD Esuatini vence en 14 dias (10/07/2026).']
 };
 const OPORTUNIDADES_DATA = [
-  {organismo:'PNUD (UNDP) Montenegro',titulo:'International Consultant - AI and Governance Advisor',area:'Inteligencia Artificial / Gobierno Digital',modalidad:'Remoto / Híbrido',idioma:'Inglés',fecha_limite:'Consultar convocatoria',honorarios:'No especificado',pais:'Montenegro (remoto)',puntaje:70,clasificacion:'Muy recomendable',prioridad:'Alta',link:'https://procurement-notices.undp.org/view_negotiation.cfm?nego_id=46503',nueva:true,critica:false,motivo:'Consultoria individual (IC) centrada en IA aplicada a gobernanza, modalidad mayormente remota, alineada con perfil de transformacion digital y politicas publicas.'},
-  {organismo:'UNESCO Camboya',titulo:'International Consultant: Educational Technology and Digital Transformation Expert',area:'Educación / Tecnología Educativa / Transformación Digital',modalidad:'Híbrido (2 misiones a Camboya, resto remoto)',idioma:'Inglés',fecha_limite:'Consultar convocatoria',honorarios:'No especificado',pais:'Camboya (Phnom Penh)',puntaje:60,clasificacion:'Muy recomendable',prioridad:'Alta',link:'https://unjobs.org/vacancies/1733704316562',nueva:true,critica:false,motivo:'Proyecto STEPCam II: hub de innovacion EdTech, IA y transformacion digital educativa, contrato de 11 meses mayormente remoto con 2 misiones puntuales.'},
-  {organismo:'UNESCO Perú',titulo:'Asesor para el Cambio en Pedagogía - Proyecto Educación UNESCO-Quellaveco-Reimagina 2024-2027',area:'Educación / Pedagogía / Innovación Educativa',modalidad:'Presencial/Híbrido (región Moquegua)',idioma:'Español',fecha_limite:'22/06/2026',honorarios:'No especificado',pais:'Perú (Lima/Moquegua)',puntaje:55,clasificacion:'Interesante',prioridad:'Alta - URGENTE (vence en 3 días)',link:'https://careers.unesco.org/job/Lima-ASESOR-PARA-EL-CAMBIO-EN-PEDAGOG%C3%8DA-PROYECTO-DE-EDUCACI%C3%93N-UNESCO-QUELLAVECO-REIMAGINA-2024-2027/1347553157/',nueva:true,critica:false,motivo:'Proyecto de innovacion pedagogica con Anglo American/UNESCO en Peru, alineado con perfil de innovacion publica y desarrollo territorial. Vencimiento muy proximo.'},
-  {organismo:'PNUD (UNDP) Bosnia y Herzegovina',titulo:'International Consultant - Digital Payments Expert',area:'Gobierno Digital / Pagos Digitales',modalidad:'Híbrido (requiere misiones en el pais)',idioma:'Inglés',fecha_limite:'Consultar convocatoria',honorarios:'No especificado',pais:'Bosnia y Herzegovina',puntaje:40,clasificacion:'Interesante',prioridad:'Media',link:'https://procurement-notices.undp.org/view_negotiation.cfm?nego_id=46475',nueva:true,critica:false,motivo:'Consultoria deliverable-based en pagos digitales, pero exige viajes/presencia en pais, reduce compatibilidad con preferencia remota.'}
+  {organismo:'PNUD (UNDP) Esuatini',titulo:'International Consultant - Just Energy Transition and Renewable Constituency Analysis',area:'Transicion Energetica y Politicas Publicas',modalidad:'Remoto',idioma:'Ingles',fecha_limite:'10/07/2026',honorarios:'No especificado',pais:'Esuatini (Eswatini)',puntaje:55,clasificacion:'Interesante',prioridad:'A',link:'https://procurement-notices.undp.org/view_negotiation.cfm?nego_id=46927',nueva:true,critica:false,motivo:'Remoto (+20), vinculacion con politicas publicas y transicion energetica (+10), ingles (+5). No suma en educacion/IA/innovacion directa.'},
+  {organismo:'UNICEF Guatemala',titulo:'Consultoria - Estrategia de Implementacion de Entornos Virtuales Moviles y Kits Tecnologicos para el Aprendizaje Digital',area:'Educacion Digital',modalidad:'Hibrida (presencia en Guatemala)',idioma:'Espanol',fecha_limite:'05/07/2026',honorarios:'No especificado',pais:'Guatemala',puntaje:30,clasificacion:'Baja prioridad',prioridad:'A',link:'https://jobs.unicef.org/en-us/job/593234/',nueva:true,critica:false,motivo:'Fuerte vinculacion con educacion (+15) y espanol (+5), pero modalidad no remota y consultoria corta (3 meses), por lo que no suma en remoto/part-time.'}
 ];
 /* ═══════════════════════════════════════════════════════════════════════ */
 
